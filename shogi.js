@@ -18,13 +18,11 @@ let koma=["#歩","#香","#桂","#銀","#金","#飛","#角"];
 let gamemode=6; //０：駒選択　１：進む場所選択　２：進む場所選択（置き駒から）　３：成り選択　４：待機　６：マッチング　
 let endgame=0; //０：ゲーム中　1：勝ち　2：負け
 
-let button=new Array(3);
-
 let conn,peer;
 let dim;
 let connectplayer=false,connectserver=false;
 let allPeerList=[];
-let select;
+let select,button;
 
 
 function preload(){
@@ -32,7 +30,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(1150,600);
+    createCanvas(1100,600);
 
     peer=new Peer(makeid(),
         {
@@ -43,6 +41,7 @@ function setup(){
 
     peer.on('open',()=>{
         dim=createP("あなたのID： "+peer.id);
+        dim.position(topx+cellsize*3,topy+cellsize*4)
         connectserver=true;
         search(false);
     });
@@ -55,6 +54,7 @@ function setup(){
         });
         conn.on("data",onRecvMessage);
         select.remove();
+        button.remove();
         dim.remove();
         gamemode=0;
     });
@@ -155,7 +155,7 @@ function disp(){
     }
 
     //成るか尋ねる
-    if(gamemode==3){
+    if(gamemode==3||endgame>0||gamemode==6){
         noStroke();
         fill("#ffffffaa");
         rectMode(CENTER);
@@ -164,20 +164,9 @@ function disp(){
         fill(0);
         textAlign(CENTER);
         textSize(30);
-        text("成りますか？",topx+cellsize*4.5,topy+cellsize*4.2);
-    }
-
-    if(endgame>0){
-        noStroke();
-        fill("#ffffffaa");
-        rectMode(CENTER);
-        rect(topx+cellsize*4.5,topy+cellsize*4.5,cellsize*4.5,cellsize*2.5);
-        rectMode(CORNER);
-        fill(0);
-        textAlign(CENTER);
-        textSize(30);
-        if(endgame==1) text("あなたの勝ちです",topx+cellsize*4.5,topy+cellsize*4.2);   
-        else            text("あなたの負けです",topx+cellsize*4.5,topy+cellsize*4.2);  
+        if(gamemode==3) text("成りますか？",topx+cellsize*4.5,topy+cellsize*4.2);
+        if(endgame==1)  text("あなたの勝ちです",topx+cellsize*4.5,topy+cellsize*4.2);   
+        if(endgame==2)  text("あなたの負けです",topx+cellsize*4.5,topy+cellsize*4.2);  
     }
     
     //持ち駒の表示
@@ -217,6 +206,10 @@ function disp(){
     }
     strokeWeight(1);
 
+    fill(0);
+    textSize(30);
+    if(gamemode<4)  text("あなたの番",90,height-30);
+    if(gamemode==4)  text("相手の番",70,height-30);
 }
 
 
@@ -500,11 +493,18 @@ function search(swi){
 
         if(swi) select.remove();
         select=createSelect();
+        select.position(topx+cellsize*2.5,topy+cellsize*5)
         select.option("対戦相手を選んでください");
         for(let i=0;i<allPeerList.length;i++){
             select.option(allPeerList[i]);
             select.changed(selectevent);
         } 
+        if(swi==false){
+            button=createButton("再検索");
+            button.position(topx+cellsize*5.5,topy+cellsize*5);
+            button.mouseClicked(buttonevent);
+        }
+        
     });
 }
 
@@ -516,13 +516,18 @@ function selectevent(){
         conn.on("data",onRecvMessage);
     
         conn.on("open",function(){
-            console.log("接続成功");
+            console.log("");
             connectplayer=true;
             select.remove();
             dim.remove();
+            button.remove();
             gamemode=4;
         });
 
     }
+}
+
+function buttonevent(){
+    search(true);
 }
 
