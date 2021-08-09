@@ -32,7 +32,7 @@ function preload(){
 }
 
 function setup(){
-    createCanvas(1010,600);
+    createCanvas(1150,600);
 
     peer=new Peer(makeid(),
         {
