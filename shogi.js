@@ -22,7 +22,7 @@ let conn,peer;
 let dim;
 let connectplayer=false,connectserver=false;
 let allPeerList=[];
-let select,button;
+let select,button,url;
 
 
 function preload(){
@@ -60,7 +60,7 @@ function setup(){
     });
 
     setstone();
-     
+    url=createA('https://nakkinn.github.io/home','home');
 }
 
 function draw(){
@@ -95,7 +95,8 @@ function setstone(){
 }
 
 function disp(){
-    background('#e7d465');
+    
+    background(220);
     imageMode(CENTER);
 
     for(let i=0;i<9;i++)    for(let j=0;j<9;j++){
@@ -103,7 +104,7 @@ function disp(){
         stroke(0);
         if(i==column&&j==row) {
             fill('#bb333388');
-        }
+        }else   fill('#e7d465');
         square(i*cellsize+topx,j*cellsize+topy,cellsize);
     }
 
