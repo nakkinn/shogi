@@ -232,7 +232,7 @@ function mouseClicked(){
             enablecite(column,row);
         }else if(gamemode==1){  //進む場所を選択
             if(boardb[column][row]){    //進める
-                if(board[column2][row2].charAt(1)!='!'&&((row<1&&board[column2][row2]=="#歩")||(row<2&&board[column2][row2]=="#桂")))  flipyes();
+                if(board[column2][row2].charAt(1)!='!'&&((row<1&&(board[column2][row2]=="#歩"||board[column2][row2]=="#香"))||(row<2&&board[column2][row2]=="#桂")))  flipyes();
                 else if(board[column2][row2].charAt(1)!='!'&&(row<3||row2<3)&&board[column2][row2]!="#王"&&board[column2][row2]!="#金")  flip();
                 else{
                     if(board[column][row].charAt(0)=='@')   getstone();
