@@ -500,7 +500,7 @@ function search(swi){
         select.option("対戦相手を選んでください");
         for(let i=0;i<allPeerList.length;i++){
             select.option(allPeerList[i]);
-            select.changed();
+            select.changed(selectevent);
         } 
         if(swi==false){
             button=createButton("再検索");
