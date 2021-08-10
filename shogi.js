@@ -95,7 +95,7 @@ function setstone(){
 
 function disp(){
     
-    background(120);
+    background(220);
     imageMode(CENTER);
 
     for(let i=0;i<9;i++)    for(let j=0;j<9;j++){
@@ -413,13 +413,13 @@ function onRecvMessage(data){
     let m=new Array(8);
     console.log(data);
         
-    if(data.charAt(0)=='a'){ 
+    if(data.charAt(0)=='a'||data.charAt(0)=='b'){ 
         m[0]=data.charAt(0);
         for(let i=1;i<6;i++)    m[i]=int(data.charAt(i));
         m[6]=data.charAt(6);
         m[7]=data.slice(7);
 
-        board[m[1]][m[2]]="N";
+        if(m[0]=='a')   board[m[1]][m[2]]="N";
         column=m[3];
         row=m[4];
         if(m[7]=="@王") m[7]="@玉";
@@ -444,6 +444,7 @@ function sendmessage(n,swi){    //swi成る　n<7
     message='a'+String(8-column2)+String(8-row2)+String(8-column)+String(8-row);
     if(n<8){
         message+=n+'-@'+koma[koman].slice(1);
+        message='b'+message.slice(1);
     }
     else{
         if(board[column][row]=="N") message+="8+";
