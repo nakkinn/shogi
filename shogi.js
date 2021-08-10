@@ -24,6 +24,8 @@ let connectplayer=false,connectserver=false;
 let allPeerList=[];
 let select,button,url;
 
+let f=-10;
+
 
 function preload(){
     for(let i=1;i<29;i++)    img[i]=loadImage('image/sgl'+i+'.png');
@@ -57,6 +59,8 @@ function setup(){
         button.remove();
         dim.remove();
         gamemode=0;
+        dic=true;
+        f=frameCount;
     });
 
     setstone();
@@ -65,6 +69,7 @@ function setup(){
 
 function draw(){
     disp();
+    if(f>0&&frameCount-f==60)   peer.disconnect();
 }
 
 function setstone(){
@@ -525,6 +530,7 @@ function selectevent(){
             dim.remove();
             button.remove();
             gamemode=4;
+            f=frameCount;
         });
 
     }
@@ -533,4 +539,5 @@ function selectevent(){
 function buttonevent(){
     search(true);
 }
+
 
