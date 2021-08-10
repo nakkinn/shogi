@@ -41,7 +41,7 @@ function setup(){
 
     peer.on('open',()=>{
         dim=createP("あなたのID： "+peer.id);
-        dim.position(topx+cellsize*3,topy+cellsize*4)
+        dim.position(topx+cellsize*3,topy+cellsize*4);
         connectserver=true;
         search(false);
     });
@@ -90,7 +90,6 @@ function setstone(){
     board[4][0]="@玉";
     board[7][1]="@角";
     board[1][1]="@飛";
-
      
 }
 
@@ -202,7 +201,7 @@ function disp(){
     for(let i=0;i<7;i++){
         if(motigoma2[i]>0){
             image(img[im[i]],cellsize*x[i]+cellsize/2,topy+cellsize*y[i]+cellsize/2);
-            if(motigoma[i]>1)   text(motigoma[i],cellsize*x[i]+cellsize*0.7,topy+cellsize*y[i]+cellsize*0.9)
+            if(motigoma2[i]>1)   text(motigoma2[i],cellsize*x[i]+cellsize*0.7,topy+cellsize*y[i]+cellsize*0.9)
         }
     }
     strokeWeight(1);
@@ -362,8 +361,6 @@ function flip(){
     button[1].style('width','80px');
     button[1].style('height','30px');
     button[1].mouseClicked(flipno);
-
-   
 }
 
 
@@ -429,19 +426,20 @@ function onRecvMessage(data){
         board[m[3]][m[4]]=m[7];
         if(m[5]<8){
             if(m[6]=='+')    motigoma2[m[5]]++;
-                else                motigoma2[m[5]]--;
+                else         motigoma2[m[5]]--;
+            console.log("もちもち");
         }
         gamemode=0;
     }
     if(data=="youlose") endgame=2;
-    console.log(board);
+    
     /*
     a12133+@歩:２列目３行目を削除２列目４行目に歩を置く
     */
 }
 
 
-    function sendmessage(n,swi){    //swi成る　n<7
+function sendmessage(n,swi){    //swi成る　n<7
     let message;
     message='a'+String(8-column2)+String(8-row2)+String(8-column)+String(8-row);
     if(n<8){
