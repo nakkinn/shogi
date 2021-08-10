@@ -14,7 +14,7 @@ for(let i=0;i<7;i++){
 let cellsize=65,topx=210,topy=10;
 let img=new Array(59);
 let row=9,column=9,row2,column2,koman;
-let koma=["#歩","#香","#桂","#銀","#金","#飛","#角"];
+let koma=["#歩","#香","#桂","#金","#銀","#飛","#角"];
 let gamemode=6; //０：駒選択　１：進む場所選択　２：進む場所選択（置き駒から）　３：成り選択　４：待機　６：マッチング　
 let endgame=0; //０：ゲーム中　1：勝ち　2：負け
 
@@ -96,7 +96,7 @@ function setstone(){
 
 function disp(){
     
-    background(220);
+    background(120);
     imageMode(CENTER);
 
     for(let i=0;i<9;i++)    for(let j=0;j<9;j++){
@@ -228,7 +228,7 @@ function mouseClicked(){
             enablecite(column,row);
         }else if(gamemode==1){  //進む場所を選択
             if(boardb[column][row]){    //進める
-                if(board[column2][row2].charAt(1)!='!'&&(row<3||row2<3))  flip();
+                if(board[column2][row2].charAt(1)!='!'&&(row<3||row2<3)&&board[column2][row2]!="#王"&&board[column2][row2]!="#金")  flip();
                 else{
                     if(board[column][row].charAt(0)=='@')   getstone();
                     gamemode=4;
