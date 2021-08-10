@@ -489,7 +489,7 @@ function search(swi){
     allPeerList.length=0;
     peer.listAllPeers(list=>{
         for(let i=0;i<list.length;i++){
-            if(peer.id!=list[i]&&peer.id.slice(0,-5)=="shogi")   allPeerList[allPeerList.length]=list[i];
+            if(peer.id!=list[i]&&list[i].slice(0,-5)=="shogi")   allPeerList[allPeerList.length]=list[i];
         }
         console.log(allPeerList);
         console.log(allPeerList.length);
@@ -500,7 +500,7 @@ function search(swi){
         select.option("対戦相手を選んでください");
         for(let i=0;i<allPeerList.length;i++){
             select.option(allPeerList[i]);
-            select.changed(selectevent);
+            select.changed();
         } 
         if(swi==false){
             button=createButton("再検索");
